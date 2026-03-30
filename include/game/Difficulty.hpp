@@ -8,4 +8,6 @@ namespace calculissimo::game {
         Hard
     };
 
+    const char* difficultyToText(Difficulty difficulty);
+
 }
