@@ -1,13 +1,14 @@
 #include "core/Application.hpp"
-
 #include <array>
 #include <random>
 #include <stdexcept>
 #include <string>
-
 #include "raylib.h"
 
 namespace calculissimo::core {
+
+static constexpr int COINS_PER_CORRECT_ANSWER = 10;
+static constexpr int COINS_PER_WRONG_ANSWER = -2;
 
 int Application::run() {
     constexpr int screenWidth = 1000;
@@ -31,12 +32,13 @@ int Application::run() {
     };
     game::Question currentQuestion = questionGenerator.generate(settings);
 
-    int totalQuestions = 0;
-    int correctAnswers = 0;
     std::string inputBuffer;
     std::string feedback;
     Color feedbackColor = DARKGRAY;
 
+    int coinsDelta = 0;
+    int correctAnswers = 0;
+    int totalQuestions = 0;
     while (!WindowShouldClose()) {
         int key = GetCharPressed();
         while (key > 0) {
@@ -54,6 +56,11 @@ int Application::run() {
             inputBuffer.pop_back();
         }
 
+        if (IsKeyPressed(KEY_M)) {
+            userProfile.toggleMascotVisibility();
+            userProfile.save();
+        }
+
         if (IsKeyPressed(KEY_ENTER)) {
             try {
                 std::size_t parsedCharacters = 0;
@@ -64,13 +71,19 @@ int Application::run() {
 
                 ++totalQuestions;
                 if (answer == currentQuestion.expectedAnswer) {
-                    ++correctAnswers;
+                    coinsDelta = COINS_PER_CORRECT_ANSWER;
+                    userProfile.addCoins(COINS_PER_CORRECT_ANSWER);
                     feedback = "Oui bien joué :)";
                     feedbackColor = GREEN;
+                    correctAnswers++;
                 } else {
+                    coinsDelta = COINS_PER_WRONG_ANSWER;
+                    userProfile.addCoins(COINS_PER_WRONG_ANSWER);
                     feedback = "Non :( c'est faux. Reponse: " + std::to_string(currentQuestion.expectedAnswer);
                     feedbackColor = RED;
                 }
+
+                userProfile.save();
 
                 currentQuestion = questionGenerator.generate({
                     .difficulty = game::Difficulty::Easy,
@@ -91,7 +104,7 @@ int Application::run() {
         const std::string difficultyLabel = std::string("Difficulté: ") + game::difficultyToText(settings.difficulty);
         const int difficultyTextWidth = MeasureText(difficultyLabel.c_str(), 20);
         DrawText(difficultyLabel.c_str(), (screenWidth - difficultyTextWidth - 30), 20, 20, DARKGRAY);
-        DrawText("[ESC] quitter | [ENTREE] valider", 30, 65, 20, GRAY);
+        DrawText("[ESC] quitter | [ENTREE] valider | [?] mascotte", 30, 65, 20, GRAY);
 
         const std::string prompt = "Question: " + currentQuestion.toPrompt();
         DrawText(prompt.c_str(), 30, 150, 40, BLACK);
@@ -105,9 +118,25 @@ int Application::run() {
         const std::string scoreText = "Score: " + std::to_string(correctAnswers) + "/" + std::to_string(totalQuestions);
         DrawText(scoreText.c_str(), 30, 380, 30, MAROON);
 
+        const std::string coinsText = "Pièces: " + std::to_string(userProfile.getCoins());
+        DrawText(coinsText.c_str(), 30, 420, 24, GOLD);
+
+        if (coinsDelta != 0) {
+            const int coinsTextWidth = MeasureText(coinsText.c_str(), 24);
+            const std::string deltaText = (coinsDelta > 0)
+                ? " +" + std::to_string(coinsDelta)
+                : " " + std::to_string(coinsDelta);
+            const Color deltaColor = (coinsDelta > 0) ? GREEN : RED;
+            DrawText(deltaText.c_str(), 30 + coinsTextWidth, 420, 24, deltaColor);
+        }
+
+
+        mascot.draw(userProfile.isMascotVisible());
+
         EndDrawing();
     }
 
+    userProfile.save();
     CloseWindow();
 
     return 0;

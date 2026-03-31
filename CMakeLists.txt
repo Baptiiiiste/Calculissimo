@@ -22,8 +22,11 @@ set(SOURCE_FILES
 		src/main.cpp
 		src/core/Application.cpp
 		src/game/Difficulty.cpp
+		src/game/Mascot.cpp
 		src/game/Question.cpp
 		src/game/QuestionGenerator.cpp
+		src/storage/FileManager.cpp
+		src/user/UserProfile.cpp
 )
 
 add_executable(Calculissimo ${SOURCE_FILES})
