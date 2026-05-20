@@ -4,22 +4,16 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
+#include "game/DifficultyConfig.hpp"
 
 namespace calculissimo::game {
 
 
 /// On récupère une paire de nombres aléatoires en fonction de la difficulté qui serviront de bornes
 std::pair<int, int> rangeForDifficulty(const Difficulty difficulty) {
-    switch (difficulty) {
-    case Difficulty::Easy:
-        return {1, 10};
-    case Difficulty::Medium:
-        return {5, 20};
-    case Difficulty::Hard:
-        return {10, 50};
-    }
-
-    throw std::invalid_argument("Unsupported difficulty level");
+    const auto& config = getDifficultyConfig();
+    const auto range = getDifficultyRange(difficulty, config);
+    return {range.minValue, range.maxValue};
 }
 
 /// Constructeur avec un seed aléatoire pour la génération des questions, ca évitera qu'on ait les mêmes nombres à chaque fois
@@ -50,6 +44,7 @@ Question QuestionGenerator::generate(const GenerationSettings& settings) {
     };
 }
 
+/// Donne le résultat attendu
 int QuestionGenerator::getExpectedAnswer(const int leftNumber, const int rightNumber, const Operation operation) {
     switch (operation) {
     case Operation::Addition:
@@ -69,4 +64,3 @@ int QuestionGenerator::getExpectedAnswer(const int leftNumber, const int rightNu
 }
 
 }
-

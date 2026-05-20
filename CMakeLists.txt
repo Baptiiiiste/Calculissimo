@@ -22,10 +22,14 @@ set(SOURCE_FILES
 		src/main.cpp
 		src/core/Application.cpp
 		src/game/Difficulty.cpp
+		src/game/DifficultyConfig.cpp
+		src/game/GameController.cpp
+		src/game/GameMode.cpp
 		src/game/Mascot.cpp
 		src/game/Question.cpp
 		src/game/QuestionGenerator.cpp
 		src/scenes/GameScene.cpp
+		src/scenes/MainMenuScene.cpp
 		src/scenes/ShopScene.cpp
 		src/shop/Shop.cpp
 		src/storage/FileManager.cpp

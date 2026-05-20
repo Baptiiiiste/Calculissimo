@@ -102,11 +102,11 @@ void Mascot::drawHead(const MascotCustomization& custom) const {
 void Mascot::drawEyes(const MascotCustomization& custom) const {
     const float headCenterY = y - 60.0f - 40.0f - 28.0f + 5.0f;
 
-    // Œil gauche
+    // Oeil gauche
     DrawCircle(static_cast<int>(x - 9.0f), static_cast<int>(headCenterY - 5.0f), 6.0f, WHITE);
     DrawCircle(static_cast<int>(x - 9.0f), static_cast<int>(headCenterY - 5.0f), 3.0f, custom.eyeColor);
 
-    // Œil droit
+    // Oeil droit
     DrawCircle(static_cast<int>(x + 9.0f), static_cast<int>(headCenterY - 5.0f), 6.0f, WHITE);
     DrawCircle(static_cast<int>(x + 9.0f), static_cast<int>(headCenterY - 5.0f), 3.0f, custom.eyeColor);
 }

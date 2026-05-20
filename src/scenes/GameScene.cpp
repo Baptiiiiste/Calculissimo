@@ -4,6 +4,8 @@ namespace calculissimo::scenes {
 
 void drawGameScene(const int screenWidth, const int screenHeight,
                    const std::string& difficultyLabel,
+                   const std::string& modeLabel,
+                   const std::string& timerLabel,
                    const std::string& prompt,
                    const std::string& inputBuffer,
                    const std::string& feedback,
@@ -17,7 +19,16 @@ void drawGameScene(const int screenWidth, const int screenHeight,
 
     const int difficultyTextWidth = MeasureText(difficultyLabel.c_str(), 20);
     DrawText(difficultyLabel.c_str(), screenWidth - difficultyTextWidth - 30, 20, 20, DARKGRAY);
-    DrawText("[ESC] quitter | [ENTREE] valider | [?] mascotte | [B] boutique", 30, 65, 20, GRAY);
+
+    const int modeTextWidth = MeasureText(modeLabel.c_str(), 20);
+    DrawText(modeLabel.c_str(), screenWidth - modeTextWidth - 30, 45, 20, DARKGRAY);
+
+    if (!timerLabel.empty()) {
+        const int timerTextWidth = MeasureText(timerLabel.c_str(), 20);
+        DrawText(timerLabel.c_str(), screenWidth - timerTextWidth - 30, 70, 20, MAROON);
+    }
+
+    DrawText("[ESC] menu | [ENTREE] valider | [?] mascotte", 30, 95, 20, GRAY);
 
     DrawText(prompt.c_str(), 30, 150, 40, BLACK);
 

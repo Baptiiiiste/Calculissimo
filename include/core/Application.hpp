@@ -1,8 +1,9 @@
 #pragma once
 
 #include "core/Scene.hpp"
+#include "game/GameController.hpp"
+#include "game/GameMode.hpp"
 #include "game/Mascot.hpp"
-#include "game/QuestionGenerator.hpp"
 #include "user/UserProfile.hpp"
 
 namespace calculissimo::core {
@@ -12,13 +13,15 @@ namespace calculissimo::core {
       int run();
 
     private:
-      game::QuestionGenerator questionGenerator;
-      user::UserProfile       userProfile{"profile.dat"};
-      game::Mascot            mascot{880.0f, 560.0f};
-      game::Mascot            shopPreviewMascot{700.0f, 450.0f};
+      game::GameController gameController;
+      user::UserProfile     userProfile{"profile.dat"};
+      game::Mascot          mascot{880.0f, 560.0f};
+      game::Mascot          shopPreviewMascot{700.0f, 450.0f};
 
-      Scene currentScene = Scene::Game;
+      game::Difficulty selectedDifficulty = game::Difficulty::Easy;
+      game::GameMode selectedMode = game::GameMode::Entrainement;
+
+      Scene currentScene = Scene::MainMenu;
   };
 
 }
-

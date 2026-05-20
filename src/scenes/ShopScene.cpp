@@ -14,7 +14,7 @@ void drawShopScene(const int screenWidth, const int screenHeight, const int scro
     const int coinsWidth = MeasureText(coinsText.c_str(), 24);
     DrawText(coinsText.c_str(), screenWidth - coinsWidth - 30, 25, 24, GOLD);
 
-    DrawText("[B] retour au jeu | Scroll pour naviguer", 30, 60, 20, GRAY);
+    DrawText("[ESC] retour | Scroll pour naviguer", 30, 60, 20, GRAY);
 
     shopPreviewMascot.draw(true, userProfile.getCustomization());
 
