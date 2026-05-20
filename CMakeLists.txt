@@ -25,8 +25,14 @@ set(SOURCE_FILES
 		src/game/Mascot.cpp
 		src/game/Question.cpp
 		src/game/QuestionGenerator.cpp
+		src/scenes/GameScene.cpp
+		src/scenes/ShopScene.cpp
+		src/shop/Shop.cpp
 		src/storage/FileManager.cpp
+		src/ui/UiHelper.cpp
 		src/user/UserProfile.cpp
+		include/shop/ItemCategory.h
+		include/core/Scene.hpp
 )
 
 add_executable(Calculissimo ${SOURCE_FILES})

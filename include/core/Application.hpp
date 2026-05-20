@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/Scene.hpp"
 #include "game/Mascot.hpp"
 #include "game/QuestionGenerator.hpp"
 #include "user/UserProfile.hpp"
@@ -13,7 +14,10 @@ namespace calculissimo::core {
     private:
       game::QuestionGenerator questionGenerator;
       user::UserProfile       userProfile{"profile.dat"};
-      game::Mascot             mascot{880.0f, 560.0f};
+      game::Mascot            mascot{880.0f, 560.0f};
+      game::Mascot            shopPreviewMascot{700.0f, 450.0f};
+
+      Scene currentScene = Scene::Game;
   };
 
 }
